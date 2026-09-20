@@ -58,8 +58,15 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           version="${GITHUB_REF_NAME#v}"
-          gh release create "$GITHUB_REF_NAME" \
-            "dist/FileTimeEdit-$version.dmg" \
-            "dist/FileTimeEdit-$version.zip" \
-            --title "File Time Edit $version" \
-            --generate-notes
+          assets=(
+            "dist/FileTimeEdit-$version.dmg"
+            "dist/FileTimeEdit-$version.zip"
+          )
+
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" "${assets[@]}" --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" "${assets[@]}" \
+              --title "File Time Edit $version" \
+              --generate-notes
+          fi
