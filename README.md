@@ -13,6 +13,21 @@ files, batches of files, folders, and folder contents.
 - Report successful updates and individual permission or filesystem failures.
 - Avoid external runtime dependencies and the `SetFile` command.
 
+## Screenshots
+
+1. Homepage
+![HomePage](Screenshots/1.HomePage.png)
+
+2. Select Folder/File(s)
+![Selection](Screenshots/2.FolderOrFilesSelection.png)
+
+3. Set The Desired DateTime
+![SelectDateTime](Screenshots/3.SelectDesiredDateTimeAndApply.png)
+
+4. Final Output
+![Output](Screenshots/4.FinalOutput.png)
+
+
 ## Requirements
 
 - macOS 14 Sonoma or later
