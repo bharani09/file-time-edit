@@ -13,7 +13,7 @@ jobs:
   build-and-test:
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Select Xcode
         run: |
           xcode_paths=(/Applications/Xcode_16*.app)
@@ -32,7 +32,7 @@ jobs:
             export VERSION="${GITHUB_REF_NAME#v}"
           fi
           bash Scripts/package-app.sh
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: FileTimeEdit
           path: |
@@ -46,7 +46,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: FileTimeEdit
           path: dist
