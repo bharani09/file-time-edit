@@ -11,7 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_16.0.app
+        run: |
+          xcode_paths=(/Applications/Xcode_16*.app)
+          test -d "${xcode_paths[0]}"
+          xcode_path="${xcode_paths[${#xcode_paths[@]}-1]}"
+          sudo xcode-select -s "$xcode_path"
       - name: Build
         run: swift build
       - name: Test
