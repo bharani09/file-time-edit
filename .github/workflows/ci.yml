@@ -26,9 +26,12 @@ jobs:
         run: swift test
       - name: Package unsigned app
         env:
-          VERSION: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || '0.1.0' }}
           BUILD_NUMBER: ${{ github.run_number }}
-        run: bash Scripts/package-app.sh
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            export VERSION="${GITHUB_REF_NAME#v}"
+          fi
+          bash Scripts/package-app.sh
       - uses: actions/upload-artifact@v4
         with:
           name: FileTimeEdit
