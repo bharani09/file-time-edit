@@ -75,6 +75,10 @@ bash Scripts/package-app.sh
 open "dist/File Time Edit.app"
 ```
 
+The same command also creates a compressed DMG at
+`dist/FileTimeEdit-0.1.0.dmg`. The DMG contains the app bundle at its root, so
+users can open it and drag the app to Applications.
+
 By default the app is ad-hoc signed, which is suitable for local testing. Set
 release metadata with environment variables:
 
@@ -138,16 +142,19 @@ Never commit certificates, passwords, API keys, or notarization profiles.
 3. Update `BUNDLE_IDENTIFIER`, copyright ownership, and repository links for
    your project.
 4. Enable GitHub Actions. The included workflow builds, tests, packages, and
-   uploads an unsigned artifact for each push and pull request.
-5. For a release, build and notarize locally, create a Git tag, and attach the
-   notarized ZIP to a GitHub Release:
+   uploads ZIP and DMG artifacts for each push and pull request.
+5. For a public release, use a Developer ID certificate and notarization, then
+   create a Git tag. A tag matching `v*.*.*` automatically creates a GitHub
+   Release and attaches the generated ZIP and DMG:
 
    ```sh
    git tag v1.0.0
    git push origin v1.0.0
-   gh release create v1.0.0 "dist/FileTimeEdit-1.0.0.zip" \
-     --title "File Time Edit 1.0.0" --generate-notes
    ```
+
+   The workflow currently creates an ad-hoc-signed build. For downloads that
+   open without Gatekeeper warnings, add signing and notarization credentials
+   to GitHub Actions and notarize the app before publishing it.
 
 ## Project structure
 

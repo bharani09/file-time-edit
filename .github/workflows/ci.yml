@@ -3,7 +3,11 @@ name: CI
 on:
   push:
     branches: [main]
+    tags: ["v*.*.*"]
   pull_request:
+
+permissions:
+  contents: write
 
 jobs:
   build-and-test:
@@ -25,4 +29,17 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: FileTimeEdit
-          path: dist/FileTimeEdit-*.zip
+          path: |
+            dist/FileTimeEdit-*.zip
+            dist/FileTimeEdit-*.dmg
+      - name: Publish GitHub release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          gh release create "$GITHUB_REF_NAME" \
+            "dist/FileTimeEdit-$version.dmg" \
+            "dist/FileTimeEdit-$version.zip" \
+            --title "File Time Edit $version" \
+            --generate-notes

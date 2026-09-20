@@ -32,5 +32,14 @@ rm -f "$DIST_DIR/FileTimeEdit-$VERSION.zip"
 ditto -c -k --sequesterRsrc --keepParent \
     "$APP_DIR" "$DIST_DIR/FileTimeEdit-$VERSION.zip"
 
+rm -f "$DIST_DIR/FileTimeEdit-$VERSION.dmg"
+hdiutil create \
+    -volname "$APP_NAME $VERSION" \
+    -srcfolder "$APP_DIR" \
+    -ov \
+    -format UDZO \
+    "$DIST_DIR/FileTimeEdit-$VERSION.dmg" >/dev/null
+
 echo "Created: $APP_DIR"
 echo "Created: $DIST_DIR/FileTimeEdit-$VERSION.zip"
+echo "Created: $DIST_DIR/FileTimeEdit-$VERSION.dmg"
